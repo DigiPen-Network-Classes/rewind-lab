@@ -111,10 +111,32 @@ void OptimisticHostScenarioState::Update()
 
 					// just use whatever the host has now
 					//WRONG: current values won't match what the client thought they were hitting!
-					target_x = local_control_.GetCurrentX();
-					target_y = local_control_.GetCurrentY();
+					//target_x = local_control_.GetCurrentX();
+					//target_y = local_control_.GetCurrentY();
 
 					// TODO ADD LAB CODE HERE!
+
+					// Part 2: evaluate based on server data:
+					/*
+					auto intermediate_state = DoubleOrbitControl::State::CalculateIntermediateState(
+						base_attack_record_iter->actual_control_state,
+						target_attack_record_iter->actual_control_state,
+						attack_t);
+					target_x = local_control_.CalculateX(intermediate_state);
+					target_y = local_control_.CalculateY(intermediate_state);
+					*/
+
+					// part 3: being fair to Client
+					SnapshotControl snapshot_control;
+					snapshot_control.AddSnapshot(
+						base_attack_record_iter->snapshot_state,
+						base_attack_record_iter->frame);
+					snapshot_control.AddSnapshot(
+						target_attack_record_iter->snapshot_state,
+						target_attack_record_iter->frame);
+					target_x = snapshot_control.CalculateX(attack_t);
+					target_y = snapshot_control.CalculateY(attack_t);
+
 
 					client_attack_.Set(attack_x, attack_y, target_x, target_y, { base_attack_frame, target_attack_frame, attack_t });
 					is_client_attack_queued_ = true;
