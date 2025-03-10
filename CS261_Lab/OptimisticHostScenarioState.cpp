@@ -114,7 +114,7 @@ void OptimisticHostScenarioState::Update()
 					target_x = local_control_.GetCurrentX();
 					target_y = local_control_.GetCurrentY();
 
-					// ADD LAB CODE HERE
+					// TODO ADD LAB CODE HERE!
 
 					client_attack_.Set(attack_x, attack_y, target_x, target_y, { base_attack_frame, target_attack_frame, attack_t });
 					is_client_attack_queued_ = true;
